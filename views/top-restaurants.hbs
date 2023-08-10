@@ -13,7 +13,7 @@
           <span class="bg-secondary badge mb-3 mt-3 ">收藏數：{{this.favoritedCount}}</span>
           <p class="card-text">{{this.description}}</p>
           <div class="d-flex">
-            <a class="btn btn-primary m-2" href="/restaurants/{{this.id}}">Show</a>
+            <a class="btn btn-primary m-2" href="/restaurants/{{this.id}}">Show </a>
             {{#if ifFavorited}}
             <form action="/favorite/{{this.id}}?_method=DELETE" method="post">
               <button class="btn btn-danger m-2" type="submit">移除最愛</button>
