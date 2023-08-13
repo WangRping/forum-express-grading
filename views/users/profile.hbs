@@ -7,26 +7,93 @@
       <div class="card-body">
         <h5 class="card-title fw-bold">{{user.name}}</h5>
         <p class="card-text">{{user.email}}</p>
-        <a href="/users/{{user.id}}/edit" class="btn btn-primary">edit</a>
+        <div>
+          <p class="m-0">{{comments.length}} 已評論餐廳</p>
+          <p class="m-0">{{user.FavoritedRestaurants.length}} 收藏的餐廳</p>
+          <p class="m-0">{{user.Followings.length}} followings(追蹤者)</p>
+          <p class="m-0">{{user.Followers.length}} followers(追隨者)</p>
+        </div>
+        <a href="/users/{{user.id}}/edit" class="btn btn-primary mt-3">edit</a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="card">
-  <div class="card-header fw-bold">
-    {{#ifCond comments.length 0}}
-    <div>尚未進行評論</div>
-    {{else}}
-    {{comments.length}} 已評論餐廳
-    {{/ifCond}}
-  </div>
-  <div class="card-body row">
-    {{#each comments}}
-    <a href="/restaurants/{{this.Restaurant.id}}" class="col-md-1">
-      <img class="figure-img img-fluid" src="{{this.Restaurant.image}}" alt="">
-    </a>
-    {{/each }}
+<div class="d-flex container">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header fw-bold">
+          {{#ifCond user.Followers.length 0}}
+          <div>尚無追蹤者</div>
+          {{else}}
+          {{user.Followers.length}} followings(追蹤者)
+          {{/ifCond}}
+        </div>
+        <div class="card-body row">
+          {{#each user.Followers}}
+          <a href="/users/{{this.id}}" class="col-md-3">
+            <img class="figure-img img-fluid" src="{{this.image}}" alt="">
+          </a>
+          {{/each }}
+        </div>
+      </div>
 
+      <div class="card">
+        <div class="card-header fw-bold">
+          {{#ifCond user.Followings.length 0}}
+          <div>尚無追隨者</div>
+          {{else}}
+          {{user.Followings.length}} followers(追蹤者)
+          {{/ifCond}}
+        </div>
+        <div class="card-body row">
+          {{#each user.Followings}}
+          <a href="/users/{{this.id}}" class="col-md-3">
+            <img class="figure-img img-fluid" src="{{this.image}}" alt="">
+          </a>
+          {{/each }}
+
+        </div>
+      </div>
+    </div>
+
+    <div class="restaurants-content col-md-8">
+      <div class="card">
+        <div class="card-header fw-bold">
+          {{#ifCond comments.length 0}}
+          <div>尚未進行評論</div>
+          {{else}}
+          {{comments.length}} 已評論餐廳
+          {{/ifCond}}
+        </div>
+        <div class="card-body row">
+          {{#each comments}}
+          <a href="/restaurants/{{this.Restaurant.id}}" class="col-md-1">
+            <img class="figure-img img-fluid" src="{{this.Restaurant.image}}" alt="">
+          </a>
+          {{/each }}
+
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header fw-bold">
+          {{#ifCond user.FavoritedRestaurants.length 0}}
+          <div>尚未收藏任何餐廳</div>
+          {{else}}
+          {{user.FavoritedRestaurants.length}} 已收藏餐廳
+          {{/ifCond}}
+        </div>
+        <div class="card-body row">
+          {{#each user.FavoritedRestaurants}}
+          <a href="/restaurants/{{this.id}}" class="col-md-1">
+            <img class="figure-img img-fluid" src="{{this.image}}" alt="">
+          </a>
+          {{/each }}
+
+        </div>
+      </div>
+    </div>
   </div>
+
 </div>

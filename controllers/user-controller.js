@@ -49,13 +49,23 @@ const userController = {
           model: Comment,
           raw: true,
           include: Restaurant
-        }
+        },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Restaurant, as: 'FavoritedRestaurants' }
       ]
+
     })
       .then(user => {
         if (!user) throw new Error("user doesn't exist")
         user = user.toJSON()
         user.image = user.image || DEFAULT_AVATAR
+        user.Followings.map(item => item.image = item.image || DEFAULT_AVATAR)
+        user.Followers.map(item => item.image = item.image || DEFAULT_AVATAR)
+        user.Comments = user.Comments.filter((comment, index, array) => {
+          const firstIndex = array.findIndex(item => item.restaurantId === comment.restaurantId)
+          return index === firstIndex
+        })
         res.render('users/profile', { user, comments: user.Comments })
       })
       .catch(err => next(err))
@@ -129,7 +139,6 @@ const userController = {
   addLike: (req, res, next) => {
     const { restaurantId } = req.params
     const userId = req.user.id
-    console.log(restaurantId)
     return Promise.all([
       Restaurant.findByPk(restaurantId),
       Like.findOne({ where: { restaurantId, userId } })
